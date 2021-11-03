@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -14,6 +15,8 @@ func init() {
 }
 
 func main() {
+	args := os.Args
+	fmt.Println("All arguments: ", args)
 	fmt.Printf("Congratulation %s!!!. Your Github Action worked.\n", person)
 	fmt.Printf("::set-output name=time::%s\n", time.Now().String())
 }
