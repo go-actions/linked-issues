@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"time"
+)
 
 func main() {
-	fmt.Println("Wow!!! My first Github Action worked.....")
+	person := os.Getenv("PERSON")
+	fmt.Printf("Congratulation %s!!!. Your Github Action worked.", person)
+	fmt.Printf("::set-output name=time::%s", time.Now().String())
 }
