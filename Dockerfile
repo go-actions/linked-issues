@@ -1,5 +1,5 @@
 # Use golang image as builder
-FROM golang:1.17
+FROM golang:1.17-alpine
 # Make project directory inside the GOPATH
 WORKDIR /go/src/github.com/hossainemruz/linked-issues
 # Copy the source code

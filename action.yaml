@@ -1,16 +1,37 @@
 # action.yml
 name: "Linked Issues"
+author: Emruz Hossain
 description: "Find the issues linked with a Pull Request"
 inputs:
-  person: # id of input
-    description: "Who to greet"
+  pr_url:
+    description: "URL of the Pull Request"
     required: true
-    default: "Human"
+    default: ""
+  tag:
+    description: "HTML tag that contains the linked issue URL."
+    required: false
+    default: "form"
+  attr_key:
+    description: "Attribute key that will be used to select the desired HTML tag."
+    required: false
+    default: "aria-label"
+  attr_val:
+    description: "Attribute value that will be used to select the desired HTML tag."
+    required: false
+    default: "Link issues"
+  out_format:
+    description: "Format of the output. Should be one of [IssueNumber,IssueURL,ExternalIssueRef]"
+    required: false
+    default: "IssueNumber"
 outputs:
-  time: # id of output
-    description: "The time we greeted you"
+  issues:
+    description: "List of issues separated by space and formatted according to out_format"
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - --person=${{ inputs.person }}
+    - --pr-url=${{ inputs.pr_url }}
+    - --tag=${{ inputs.tag }}
+    - --attr-key=${{ inputs.attr_key }}
+    - --attr-val=${{ inputs.attr_val }}
+    - --format=${{ inputs.out_format }}
