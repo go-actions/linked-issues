@@ -1,0 +1,16 @@
+# action.yml
+name: "Linked Issues"
+description: "Find the issues linked with a Pull Request"
+inputs:
+  person: # id of input
+    description: "Who to greet"
+    required: true
+    default: "Human"
+outputs:
+  time: # id of output
+    description: "The time we greeted you"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.person }}
