@@ -1,13 +1,19 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"os"
 	"time"
 )
 
+var person string
+
+func init() {
+	flag.StringVar(&person, "person", "", "Person to greet.")
+	flag.Parse()
+}
+
 func main() {
-	person := os.Getenv("PERSON")
-	fmt.Printf("Congratulation %s!!!. Your Github Action worked.", person)
-	fmt.Printf("::set-output name=time::%s", time.Now().String())
+	fmt.Printf("Congratulation %s!!!. Your Github Action worked.\n", person)
+	fmt.Printf("::set-output name=time::%s\n", time.Now().String())
 }
