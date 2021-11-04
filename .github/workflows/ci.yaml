@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - "main"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the commit
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+
+      - name: Build
+        run: go build
+
+      - name: Run linter
+        uses: golangci/golangci-lint-action@v2
+
+  unit-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the commit
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+
+      - name: Unit Test
+        run: go test -v
