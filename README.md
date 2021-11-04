@@ -17,7 +17,20 @@ The time we greeted you.
 ## Example usage
 
 ```yaml
-uses: actions/hello-world-docker-action@v1
-with:
-  who-to-greet: 'Mona the Octocat'
+on: [pull_request]
+
+jobs:
+  linked_issues:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      - name: Find Linked Issues
+        id: links
+        uses: hossainemruz/linked-issues@main
+        with:
+          pr_url: ${{github.event.pull_request.html_url}}
+          format: IssueNumber
+
+      - name: Output linked Issue list
+        run: echo "${{ steps.links.outputs.issues }}"
 ```

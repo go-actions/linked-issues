@@ -19,13 +19,13 @@ inputs:
     description: "Attribute value that will be used to select the desired HTML tag."
     required: false
     default: "Link issues"
-  out_format:
+  format:
     description: "Format of the output. Should be one of [IssueNumber,IssueURL,ExternalIssueRef]"
     required: false
     default: "IssueNumber"
 outputs:
   issues:
-    description: "List of issues separated by space and formatted according to out_format"
+    description: "List of issues separated by space and formatted according to 'format' input"
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -34,4 +34,4 @@ runs:
     - --tag=${{ inputs.tag }}
     - --attr-key=${{ inputs.attr_key }}
     - --attr-val=${{ inputs.attr_val }}
-    - --format=${{ inputs.out_format }}
+    - --format=${{ inputs.format }}
