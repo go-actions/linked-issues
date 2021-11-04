@@ -38,7 +38,10 @@ func init() {
 }
 
 func main() {
+	// Parse the flags
 	flag.Parse()
+
+	//  Find the linked issues
 	issues, err := input.findLinkedIssues()
 	if err != nil {
 		fmt.Println("Failed to find the linked Issues. Reason: ", err.Error())
