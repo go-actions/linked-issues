@@ -35,30 +35,30 @@ func init() {
 	flag.StringVar(&input.attr.Key, "attr-key", "aria-label", "The key of the tag attribute.")
 	flag.StringVar(&input.attr.Val, "attr-val", "Link issues", "The value of the tag attribute.")
 	flag.StringVar(&input.format, "format", IssueNumber, "Format of the output issue list.")
-	flag.Parse()
 }
 
 func main() {
+	flag.Parse()
 	issues, err := input.findLinkedIssues()
 	if err != nil {
 		fmt.Println("Failed to find the linked Issues. Reason: ", err.Error())
 		os.Exit(1)
 	}
 
-	var output OutputFormatter
+	var formatter OutputFormatter
 
 	switch input.format {
 	case IssueNumber:
-		output = &NumberFormatter{}
+		formatter = &NumberFormatter{}
 	case IssueURL:
-		output = &URLFormatter{}
+		formatter = &URLFormatter{}
 	case ExternalIssueRef:
-		output = &ExternalIssueRefFormatter{}
+		formatter = &ExternalIssueRefFormatter{}
 	default:
 		fmt.Println("Unknown format: ", input.format)
 
 	}
-	fmt.Printf("::set-output name=issues::%s\n", output.Format(issues))
+	fmt.Printf("::set-output name=issues::%s\n", formatter.Format(issues))
 }
 
 func (i *Input) findLinkedIssues() ([]string, error) {
