@@ -1,20 +1,48 @@
-# linked-issues docker action
+# Linked Issue (Github Action)
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action find the Issues linked in a Pull Request. It parses the HTML of the PR page to find the linked issues.
 
 ## Inputs
 
-## `who-to-greet`
+The action has the following inputs:
 
-**Required** The name of the person to greet. Default `"World"`.
+| Name       | Description                                                      | Type       | Possible Values                             | Default Values |
+| ---------- | ---------------------------------------------------------------- | ---------- | ------------------------------------------- | -------------- |
+| `pr_url`   | URL of the Pull Request                                          | `Required` | Any valid PR URL                            | `""`           |
+| `tag`      | HTML tag that contains the linked Issue URL                      | `Optional` | Any HTML Tag                                | `form`         |
+| `attr_key` | Attribute key that will be used to select the desired HTML tag   | `Optional` | Any valid HTML tag attribute                | `aria-label`   |
+| `attr_val` | Attribute value that will be used to select the desired HTML tag | `Optional` | Any text                                    | `Link issues`  |
+| `format`   | Output format for the linked Issues                              | `Optional` | `IssueNumber`,`IssueURL`,`ExternalIssueRef` | `IssueNumber`  |
 
 ## Outputs
 
-## `time`
+The action has the following output:
+| Name     | Description                                                                 |
+| -------- | --------------------------------------------------------------------------- |
+| `issues` | List of issues separated by space and formatted according to `format` input |
 
-The time we greeted you.
+For example, if your PR has the following issue linked:
+
+- https://github.com/foo/bar/issues/1
+- https://github.com/foo/bar/issues/2
+- https://github.com/foo/bar/issues/3
+
+The output of this action will be the following for different formats:
+
+**IssueNumber:**
+`1 2 3`
+
+**IssueURL:**
+
+`https://github.com/foo/bar/issues/1 https://github.com/foo/bar/issues/2 https://github.com/foo/bar/issues/3`
+
+**ExternalIssueRef:**
+
+`foo/bar#1 foo/bar#2 foo/bar#3`
 
 ## Example usage
+
+Here, is a sample workflow YAML showing how to use this action.
 
 ```yaml
 on: [pull_request]
@@ -34,3 +62,5 @@ jobs:
       - name: Output linked Issue list
         run: echo "${{ steps.links.outputs.issues }}"
 ```
+
+A more practical use of this action can be found in [this workflow](https://github.com/hugo-toha/toha/blob/main/.github/workflows/project-automation-pr.yaml).
