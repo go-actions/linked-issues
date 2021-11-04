@@ -1,7 +1,10 @@
 # action.yml
 name: "Linked Issues"
 author: Emruz Hossain
-description: "Find the issues linked with a Pull Request"
+description: "Find the Issues linked to a Pull Request"
+branding:
+  icon: link
+  color: purple
 inputs:
   pr_url:
     description: "URL of the Pull Request"
