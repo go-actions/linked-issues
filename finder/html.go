@@ -2,7 +2,7 @@ package finder
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -62,7 +62,7 @@ func (p *htmlParser) downloadPRPage() ([]byte, error) {
 	}
 	defer response.Body.Close()
 
-	return ioutil.ReadAll(response.Body)
+	return io.ReadAll(response.Body)
 }
 
 func (p *htmlParser) parseHTMLNodes(page []byte) (*html.Node, error) {
