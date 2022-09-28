@@ -2,6 +2,8 @@ package main
 
 import (
 	"testing"
+
+	"github.com/hossainemruz/linked-issues/io"
 )
 
 func TestFindTagNode(t *testing.T) {
@@ -37,7 +39,7 @@ func TestNumberFormatter(t *testing.T) {
 
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			f := &NumberFormatter{}
+			f := io.NewFormatter(io.IssueNumber)
 			actual := f.Format(tt.issues)
 
 			if actual != tt.expected {
@@ -72,7 +74,7 @@ func Test_URLFormatter(t *testing.T) {
 
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			f := &URLFormatter{}
+			f := io.NewFormatter(io.IssueURL)
 			actual := f.Format(tt.issues)
 
 			if actual != tt.expected {
@@ -107,7 +109,7 @@ func Test_ExternalIssueRefFormatter(t *testing.T) {
 
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			f := &ExternalIssueRefFormatter{}
+			f := io.NewFormatter(io.ExternalIssueRef)
 			actual := f.Format(tt.issues)
 
 			if actual != tt.expected {
