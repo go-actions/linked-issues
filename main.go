@@ -28,8 +28,9 @@ func main() {
 
 	output := []io.Output{
 		{
-			Name:  "issues",
-			Value: io.NewFormatter(issues, input.GetFormat()),
+			Name:   "issues",
+			Value:  io.NewFormatter(input.GetFormat()),
+			Issues: issues,
 		},
 	}
 	io.Print(output)

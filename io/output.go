@@ -6,13 +6,14 @@ import (
 )
 
 type Output struct {
-	Name  string
-	Value Formatter
+	Name   string
+	Value  Formatter
+	Issues []string
 }
 
 func Print(o []Output) {
 	for i := range o {
-		fmt.Printf("::set-output name=%s::%s\n", o[i].Name, o[i].Value.Format())
+		fmt.Printf("::set-output name=%s::%s\n", o[i].Name, o[i].Value.Format(o[i].Issues))
 	}
 }
 
@@ -23,53 +24,50 @@ const (
 )
 
 type Formatter interface {
-	Format() string
+	Format(issues []string) string
 }
 
-func NewFormatter(issues []string, format string) Formatter {
+func NewFormatter(format string) Formatter {
 	switch format {
 	case IssueNumber:
-		return &numberFormatter{issues: issues}
+		return &numberFormatter{}
 	case IssueURL:
-		return &urlFormatter{issues: issues}
+		return &urlFormatter{}
 	case ExternalIssueRef:
-		return &externalIssueRefFormatter{issues: issues}
+		return &externalIssueRefFormatter{}
 	default:
-		return &numberFormatter{issues: issues} // By default, use numberFormatter.
+		return &numberFormatter{} // By default, use numberFormatter.
 	}
 }
 
 type numberFormatter struct {
-	issues []string
 }
 
-func (nf *numberFormatter) Format() string {
+func (nf *numberFormatter) Format(issues []string) string {
 	output := make([]string, 0)
 
-	for i := range nf.issues {
-		parts := strings.Split(nf.issues[i], "/")
+	for i := range issues {
+		parts := strings.Split(issues[i], "/")
 		output = append(output, parts[len(parts)-1])
 	}
 	return strings.Join(output, " ")
 }
 
 type urlFormatter struct {
-	issues []string
 }
 
-func (uf *urlFormatter) Format() string {
-	return strings.Join(uf.issues, " ")
+func (uf *urlFormatter) Format(issues []string) string {
+	return strings.Join(issues, " ")
 }
 
 type externalIssueRefFormatter struct {
-	issues []string
 }
 
-func (ref *externalIssueRefFormatter) Format() string {
+func (ref *externalIssueRefFormatter) Format(issues []string) string {
 	output := make([]string, 0)
 
-	for i := range ref.issues {
-		parts := strings.Split(ref.issues[i], "/")
+	for i := range issues {
+		parts := strings.Split(issues[i], "/")
 		output = append(output, fmt.Sprintf("%s/%s#%s", parts[len(parts)-4], parts[len(parts)-3], parts[len(parts)-1]))
 	}
 	return strings.Join(output, " ")
